@@ -1,40 +1,110 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="light" lang="pt-BR">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Dashboard - Faz pra mim</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard | Faz pra mim</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script>
-  tailwind.config = { theme: { extend: { colors: { primary: "#630ed4" }, fontFamily: { sans: ["Inter"] } } } }
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#630ed4",
+        "primary-container": "#7c3aed",
+        "on-primary-container": "#ede0ff",
+        secondary: "#795900",
+        background: "#fef7ff",
+        "surface-container-low": "#f9f1ff",
+        "outline-variant": "#ccc3d8",
+        "on-surface": "#1d1a24",
+        "on-surface-variant": "#4a4455",
+      }
+    }
+  }
+}
 </script>
+<style>
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.chart-bar { transition: height 0.8s ease-out; }
+</style>
 </head>
-<body class="bg-gray-50 font-sans">
-<div class="flex h-screen">
-  <aside class="w-64 bg-white border-r p-6 hidden md:block">
-    <h2 class="text-xl font-bold text-primary mb-8">Faz pra mim</h2>
-    <nav class="space-y-2">
-      <a href="#" class="block py-2 px-4 bg-primary/10 text-primary rounded-lg">Dashboard</a>
-      <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded-lg">Perfil</a>
-      <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded-lg">Projetos</a>
-    </nav>
-  </aside>
-  <main class="flex-1 overflow-auto p-6 md:p-8">
-    <h1 class="text-2xl font-bold mb-6">Dashboard do Profissional</h1>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div class="bg-white rounded-xl p-6 shadow-sm"><h3 class="text-gray-500 mb-2">Visualizações</h3><p class="text-3xl font-bold">1,240</p></div>
-      <div class="bg-white rounded-xl p-6 shadow-sm"><h3 class="text-gray-500 mb-2">Contatos</h3><p class="text-3xl font-bold">45</p></div>
-      <div class="bg-white rounded-xl p-6 shadow-sm"><h3 class="text-gray-500 mb-2">Avaliação</h3><p class="text-3xl font-bold">4.9 ⭐</p></div>
-    </div>
-    <div class="bg-white rounded-xl p-6 shadow-sm">
-      <h2 class="font-bold mb-4">Últimos Contatos</h2>
-      <div class="space-y-3">
-        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span>Mariana Souza</span><button class="text-primary">Responder</button></div>
-        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span>TechFlow Solutions</span><button class="text-primary">Responder</button></div>
+<body class="bg-background font-inter">
+
+<header class="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b z-50">
+  <div class="flex justify-between items-center px-6 md:px-10 h-16 max-w-7xl mx-auto">
+    <div class="text-xl font-bold text-primary">🔧 Faz pra mim</div>
+    <div class="flex items-center gap-4">
+      <button class="relative p-2 text-gray-500"><span class="material-symbols-outlined">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span></button>
+      <div class="flex items-center gap-3">
+        <span class="text-sm text-on-surface-variant hidden md:block">Carlos Silva</span>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">CS</div>
       </div>
     </div>
-  </main>
-</div>
+  </div>
+</header>
+
+<aside class="fixed left-0 top-16 h-full w-64 bg-surface-container-low border-r hidden md:flex flex-col">
+  <div class="p-6"><h2 class="text-xl font-bold text-primary">Dashboard</h2><p class="text-sm text-on-surface-variant">Painel do Profissional</p></div>
+  <nav class="flex-1 px-4 space-y-1">
+    <a href="#" class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg transition"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+    <a href="/perfil" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface rounded-lg transition"><span class="material-symbols-outlined">person</span><span>Meu Perfil</span></a>
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface rounded-lg transition"><span class="material-symbols-outlined">work</span><span>Projetos</span></a>
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface rounded-lg transition"><span class="material-symbols-outlined">payments</span><span>Financeiro</span></a>
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface rounded-lg transition"><span class="material-symbols-outlined">analytics</span><span>Analytics</span></a>
+  </nav>
+  <div class="p-4 border-t mt-auto"><button class="w-full bg-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition"><span class="material-symbols-outlined">add</span> Novo Serviço</button></div>
+</aside>
+
+<main class="md:ml-64 pt-24 px-4 md:px-8 pb-20">
+  <div class="max-w-6xl mx-auto space-y-6">
+    <div><h1 class="text-3xl md:text-4xl font-bold">Bem-vindo de volta, Carlos!</h1><p class="text-lg text-on-surface-variant">Aqui está o resumo do seu desempenho esta semana</p></div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white p-5 rounded-xl shadow-sm border hover:shadow-md transition"><div class="flex justify-between mb-3"><span class="material-symbols-outlined text-primary bg-purple-50 p-2 rounded-lg">visibility</span><span class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">+12%</span></div><p class="text-sm text-on-surface-variant">Visualizações</p><h3 class="text-2xl font-bold">1,240</h3></div>
+      <div class="bg-white p-5 rounded-xl shadow-sm border hover:shadow-md transition"><div class="flex justify-between mb-3"><span class="material-symbols-outlined text-primary bg-purple-50 p-2 rounded-lg">contact_mail</span><span class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">+5%</span></div><p class="text-sm text-on-surface-variant">Contatos</p><h3 class="text-2xl font-bold">45</h3></div>
+      <div class="bg-white p-5 rounded-xl shadow-sm border hover:shadow-md transition"><div class="flex justify-between mb-3"><span class="material-symbols-outlined text-secondary bg-yellow-50 p-2 rounded-lg">star</span><span class="text-xs text-gray-500">124 reviews</span></div><p class="text-sm text-on-surface-variant">Avaliação</p><h3 class="text-2xl font-bold">4.9</h3></div>
+      <div class="bg-white p-5 rounded-xl shadow-sm border hover:shadow-md transition"><div class="flex justify-between mb-3"><span class="material-symbols-outlined text-orange-600 bg-orange-50 p-2 rounded-lg">ads_click</span><span class="text-xs text-gray-500">vs 15%</span></div><p class="text-sm text-on-surface-variant">Conversão</p><h3 class="text-2xl font-bold">18%</h3></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow-sm border">
+      <div class="flex justify-between items-center mb-6"><div><h3 class="text-lg font-semibold">Visualizações de Perfil</h3><p class="text-sm text-on-surface-variant">Últimos 7 dias</p></div><select class="text-sm border rounded-lg px-3 py-1"><option>Semana atual</option><option>Semana anterior</option></select></div>
+      <div class="relative h-64 flex items-end justify-between gap-3 px-2 border-b" id="chartContainer">
+        <div class="text-center text-gray-500 w-full py-4">Carregando gráfico...</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow-sm border"><h3 class="text-lg font-semibold mb-4">Contatos Recentes</h3><div class="space-y-3"><div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold">MS</div><div><p class="font-semibold">Mariana Souza</p><p class="text-sm text-gray-500">Desenvolvimento Web</p></div></div><button class="bg-primary text-white px-3 py-1.5 rounded-lg text-sm">Responder</button></div><div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold">TF</div><div><p class="font-semibold">TechFlow Solutions</p><p class="text-sm text-gray-500">UI/UX Design</p></div></div><button class="bg-primary text-white px-3 py-1.5 rounded-lg text-sm">Responder</button></div><div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-700 font-bold">JP</div><div><p class="font-semibold">João Pedro</p><p class="text-sm text-gray-500">Consultoria</p></div></div><button class="bg-primary text-white px-3 py-1.5 rounded-lg text-sm">Responder</button></div></div></div>
+      <div class="bg-white p-6 rounded-xl shadow-sm border"><h3 class="text-lg font-semibold mb-4">Avaliações Recentes</h3><div class="space-y-4"><div><div class="flex justify-between"><span class="font-semibold">Ana Beatriz</span><div class="flex text-yellow-500">★★★★★</div></div><p class="text-sm text-gray-600 mt-1">"Excelente profissional! Entregou antes do prazo com qualidade acima da média."</p></div><div><div class="flex justify-between"><span class="font-semibold">Roberto Silva</span><div class="flex text-yellow-500">★★★★★</div></div><p class="text-sm text-gray-600 mt-1">"Muito atencioso nos detalhes técnicos. Recomendo muito!"</p></div></div></div>
+    </div>
+
+    <div class="relative overflow-hidden bg-primary-container rounded-2xl p-6 md:p-8 text-white">
+      <div class="relative z-10"><h2 class="text-xl md:text-2xl font-bold mb-2">Quer alcançar mais clientes?</h2><p class="mb-4 opacity-90">Profissionais que impulsionam seu perfil têm até 3x mais visualizações e contatos diretos na primeira semana.</p><button class="bg-secondary-container text-on-secondary-container px-6 py-3 rounded-xl font-semibold hover:scale-105 transition flex items-center gap-2"><span class="material-symbols-outlined">rocket_launch</span> Impulsionar Perfil</button></div>
+      <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+      <div class="absolute -left-20 -top-20 w-64 h-64 bg-secondary-container/20 rounded-full blur-3xl"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="w-full py-6 bg-surface-container-highest border-t flex flex-col md:flex-row justify-between items-center px-6 md:px-10 md:ml-64 md:max-w-[calc(100%-256px)]">
+  <div class="text-sm text-on-surface-variant">© 2024 Faz pra mim. Todos os direitos reservados.</div>
+  <div class="flex gap-4 text-sm"><a href="#" class="text-on-surface-variant hover:text-primary">Privacidade</a><a href="#" class="text-on-surface-variant hover:text-primary">Termos</a><a href="#" class="text-on-surface-variant hover:text-primary">Ajuda</a></div>
+</footer>
+
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around items-center h-16 z-50">
+  <a href="#" class="flex flex-col items-center text-primary"><span class="material-symbols-outlined">dashboard</span><span class="text-[10px] font-bold">Início</span></a>
+  <a href="/perfil" class="flex flex-col items-center text-gray-500"><span class="material-symbols-outlined">person</span><span class="text-[10px]">Perfil</span></a>
+  <a href="#" class="flex flex-col items-center text-gray-500"><span class="material-symbols-outlined">work</span><span class="text-[10px]">Projetos</span></a>
+</nav>
+
+<script>
+  const chartData = [45, 65, 55, 85, 100, 40, 35];
+  const days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+  document.getElementById('chartContainer').innerHTML = days.map((day, i) => `<div class="flex flex-col items-center flex-1 gap-2"><div class="w-full bg-purple-200 hover:bg-purple-300 transition-all chart-bar rounded-t-lg" style="height: ${chartData[i]}%; min-height: 4px;"></div><span class="text-xs text-on-surface-variant">${day}</span></div>`).join('');
+</script>
 </body>
 </html>

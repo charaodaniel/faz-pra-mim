@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TechNexus | Faz pra mim</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#630ed4", "primary-container": "#7c3aed",
+        secondary: "#795900", "secondary-container": "#ffc329",
+        background: "#fef7ff",
+      }
+    }
+  }
+}
+</script>
+</head>
+<body class="bg-background">
+
+<nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+  <div class="flex justify-between items-center px-6 md:px-10 h-16 max-w-7xl mx-auto">
+    <div class="text-xl font-bold text-primary cursor-pointer" onclick="window.location.href='/'">🔧 Faz pra mim</div>
+    <div class="flex gap-3"><button onclick="window.location.href='/dashboard'" class="text-primary px-4 py-2">Dashboard</button><button class="bg-primary text-white px-5 py-2 rounded-lg">Sair</button></div>
+  </div>
+</nav>
+
+<main class="mt-24 mb-16 max-w-7xl mx-auto px-4 md:px-10">
+  <!-- Header da Empresa -->
+  <header class="bg-white rounded-xl p-6 shadow-sm border mb-6">
+    <div class="flex flex-col md:flex-row items-center gap-6">
+      <div class="relative"><div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center text-white text-3xl font-bold shadow-lg">TN</div><div class="absolute bottom-2 right-2 bg-primary text-white p-1 rounded-full"><span class="material-symbols-outlined text-sm">verified</span></div></div>
+      <div class="flex-1 text-center md:text-left"><div class="flex flex-col md:flex-row md:items-center gap-2 mb-2"><h1 class="text-3xl md:text-4xl font-bold">TechNexus Soluções</h1><span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-sm font-semibold self-center">EMPRESA VERIFICADA</span></div><p class="text-xl text-on-surface-variant mb-2">Tecnologia & Inovação</p><div class="flex flex-wrap justify-center md:justify-start gap-3"><span class="flex items-center gap-1 text-secondary"><span class="material-symbols-outlined">star</span> <b>4.9</b> (28 avaliações)</span><span>📍 São Paulo, SP</span><span>📞 (11) 99999-3333</span></div>
+      <div class="flex gap-3 mt-4 justify-center md:justify-start"><button class="bg-primary text-white px-6 py-2 rounded-lg flex items-center gap-2"><span class="material-symbols-outlined text-sm">chat</span> Falar com Empresa</button><button class="border border-gray-300 p-2 rounded-lg"><span class="material-symbols-outlined text-sm">share</span></button></div></div>
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="lg:col-span-8">
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden border">
+        <div class="flex border-b px-4"><button class="px-4 py-3 tab-active" onclick="switchTab('about')">Sobre</button><button class="px-4 py-3 text-on-surface-variant" onclick="switchTab('services')">Serviços</button><button class="px-4 py-3 text-on-surface-variant" onclick="switchTab('portfolio')">Portfólio</button><button class="px-4 py-3 text-on-surface-variant" onclick="switchTab('reviews')">Avaliações</button></div>
+        <div class="p-6">
+          <div id="content-about"><h3 class="text-xl font-bold mb-3">Sobre a Empresa</h3><p class="text-on-surface-variant mb-6 leading-relaxed">A TechNexus Soluções é uma empresa especializada em desenvolvimento de software e consultoria em TI, fundada em 2018. Atendemos pequenas e médias empresas com soluções personalizadas e de alta qualidade.</p><h3 class="text-xl font-bold mb-3">Diferenciais</h3><div class="grid md:grid-cols-2 gap-3"><div class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg"><span class="material-symbols-outlined text-primary">schedule</span><span>Entrega no prazo</span></div><div class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg"><span class="material-symbols-outlined text-primary">support_agent</span><span>Suporte 24/7</span></div><div class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg"><span class="material-symbols-outlined text-primary">verified</span><span>Garantia de 90 dias</span></div><div class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg"><span class="material-symbols-outlined text-primary">payment</span><span>Parcele em até 12x</span></div></div></div>
+          <div id="content-services" class="hidden"><div class="grid md:grid-cols-2 gap-3"><div class="p-4 border rounded-lg"><span class="material-symbols-outlined text-primary text-3xl mb-2">web</span><h4 class="font-bold">Desenvolvimento Web</h4><p class="text-sm text-gray-500">Sites institucionais, e-commerces e sistemas web</p></div><div class="p-4 border rounded-lg"><span class="material-symbols-outlined text-primary text-3xl mb-2">smartphone</span><h4 class="font-bold">Aplicativos Mobile</h4><p class="text-sm text-gray-500">Apps para iOS e Android</p></div><div class="p-4 border rounded-lg"><span class="material-symbols-outlined text-primary text-3xl mb-2">consultation</span><h4 class="font-bold">Consultoria TI</h4><p class="text-sm text-gray-500">Otimização de processos e infraestrutura</p></div><div class="p-4 border rounded-lg"><span class="material-symbols-outlined text-primary text-3xl mb-2">support</span><h4 class="font-bold">Suporte Técnico</h4><p class="text-sm text-gray-500">Manutenção e suporte contínuo</p></div></div></div>
+          <div id="content-portfolio" class="hidden"><div class="grid md:grid-cols-2 gap-4"><div class="border rounded-lg overflow-hidden"><img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=400" class="w-full h-40 object-cover"/><div class="p-3"><h4 class="font-bold">Sistema Financeiro</h4><p class="text-sm text-gray-500">Para empresa de contabilidade</p></div></div><div class="border rounded-lg overflow-hidden"><img src="https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=400" class="w-full h-40 object-cover"/><div class="p-3"><h4 class="font-bold">App Delivery</h4><p class="text-sm text-gray-500">Para rede de restaurantes</p></div></div></div></div>
+          <div id="content-reviews" class="hidden"><div class="flex items-center gap-6 mb-6 p-4 bg-gray-50 rounded-xl"><div class="text-center"><div class="text-4xl font-bold text-primary">4.9</div><div class="flex text-yellow-500">★★★★★</div><div class="text-sm text-gray-500">28 avaliações</div></div><div class="flex-1"><div class="flex items-center gap-2"><span class="text-sm w-6">5★</span><div class="flex-1 h-2 bg-gray-200 rounded-full"><div class="h-full bg-yellow-500 rounded-full" style="width: 93%"></div></div></div><div class="flex items-center gap-2 mt-1"><span class="text-sm w-6">4★</span><div class="flex-1 h-2 bg-gray-200 rounded-full"><div class="h-full bg-yellow-500 rounded-full" style="width: 5%"></div></div></div></div></div><div class="space-y-4"><div class="border-b pb-4"><div class="flex justify-between"><span class="font-bold">Empresa XPTO</span><div class="flex text-yellow-500 text-sm">★★★★★</div></div><p class="text-gray-600 text-sm mt-1">"Excelente parceria! Desenvolveram nosso sistema no prazo e com qualidade."</p></div></div></div>
+        </div>
+      </div>
+    </div>
+    <aside class="lg:col-span-4 space-y-4">
+      <div class="bg-white p-6 rounded-xl shadow-sm border"><div class="text-sm text-gray-500 uppercase">Modelo de Contratação</div><div class="text-2xl font-bold text-primary mt-1">Sob Consulta</div><div class="flex flex-wrap gap-2 mt-4"><span class="bg-gray-100 px-3 py-1 rounded-full text-sm">Projetos Fixos</span><span class="bg-gray-100 px-3 py-1 rounded-full text-sm">Consultoria por Hora</span><span class="bg-gray-100 px-3 py-1 rounded-full text-sm">Contratos Mensais</span></div><button class="w-full mt-4 bg-primary text-white py-3 rounded-lg font-semibold">Solicitar Orçamento</button></div>
+      <div class="bg-white p-6 rounded-xl shadow-sm border"><h4 class="font-bold mb-3">Informações de Contato</h4><div class="space-y-3"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">location_on</span><span>Av. Paulista, 1000 - São Paulo, SP</span></div><div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">mail</span><span>contato@technexus.com</span></div><div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">public</span><span>www.technexus.com</span></div><div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">qr_code</span><span>@technexus</span></div></div></div>
+    </aside>
+  </div>
+</main>
+
+<script>
+function switchTab(tab) {
+  const tabs = ['about', 'services', 'portfolio', 'reviews'];
+  tabs.forEach(t => document.getElementById(`content-${t}`).classList.add('hidden'));
+  document.getElementById(`content-${tab}`).classList.remove('hidden');
+  const btns = document.querySelectorAll('[onclick^="switchTab"]');
+  btns.forEach(btn => { btn.classList.remove('tab-active'); btn.classList.add('text-on-surface-variant'); });
+  event.target.classList.add('tab-active'); event.target.classList.remove('text-on-surface-variant');
+}
+</script>
+</body>
+</html>

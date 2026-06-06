@@ -1,10 +1,9 @@
 node_modules/
-*.db
-*.db-journal
-data/
+fazpramim.db
+*.log
 .env
 .DS_Store
-npm-debug.log
-*.log
+*.sqlite
+*.sqlite-journal
 dist/
 build/

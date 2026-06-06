@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard | TechNexus | Faz pra mim</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: { extend: { colors: { primary: "#630ed4", "primary-container": "#7c3aed", secondary: "#795900", background: "#fef7ff" } } }
+}
+</script>
+</head>
+<body class="bg-background">
+
+<header class="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b z-50">
+  <div class="flex justify-between items-center px-6 md:px-10 h-16 max-w-7xl mx-auto">
+    <div class="text-xl font-bold text-primary">🔧 Faz pra mim</div>
+    <div class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">TN</div></div>
+  </div>
+</header>
+
+<aside class="fixed left-0 top-16 h-full w-64 bg-white border-r hidden md:flex flex-col">
+  <div class="p-6"><h2 class="text-xl font-bold text-primary">Dashboard</h2><p class="text-sm text-gray-500">TechNexus Soluções</p><span class="inline-block mt-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Empresa Verificada</span></div>
+  <nav class="flex-1 px-4 space-y-1">
+    <a href="#" class="flex items-center gap-3 px-4 py-3 bg-primary-container text-white rounded-lg"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg"><span class="material-symbols-outlined">work</span><span>Projetos</span></a>
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg"><span class="material-symbols-outlined">groups</span><span>Clientes</span></a>
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg"><span class="material-symbols-outlined">payments</span><span>Financeiro</span></a>
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg"><span class="material-symbols-outlined">person</span><span>Perfil da Empresa</span></a>
+  </nav>
+  <div class="p-4 border-t"><button class="w-full bg-primary text-white py-3 rounded-xl font-bold">📢 Anunciar Serviço</button></div>
+</aside>
+
+<main class="md:ml-64 pt-24 px-4 md:px-8 pb-20">
+  <div class="max-w-6xl mx-auto space-y-6">
+    <div><h1 class="text-3xl md:text-4xl font-bold">Bem-vinda, TechNexus!</h1><p class="text-lg text-gray-500">Aqui está o resumo da sua empresa esta semana</p></div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white p-5 rounded-xl shadow-sm border"><div class="flex justify-between mb-3"><span class="material-symbols-outlined text-primary bg-purple-50 p-2 rounded-lg">visibility</span><span class="text-xs text-green-600">+8%</span></div><p class="text-sm text-gray-500">Visualizações</p><h3 class="text-2xl font-bold">2,847</h3></div>
+      <div class="bg-white p-5 rounded-xl shadow-sm border"><div class="flex justify-between mb-3"><span class="material-symbols-outlined text-primary bg-purple-50 p-2 rounded-lg">contact_mail</span><span class="text-xs text-green-600">+15%</span></div><p class="text-sm text-gray-500">Leads Recebidos</p><h3 class="text-2xl font-bold">32</h3></div>
+      <div class="bg-white p-5 rounded-xl shadow-sm border"><div class="flex justify-between mb-3"><span class="material-symbols-outlined text-secondary bg-yellow-50 p-2 rounded-lg">star</span><span class="text-xs text-gray-500">28 reviews</span></div><p class="text-sm text-gray-500">Avaliação</p><h3 class="text-2xl font-bold">4.9</h3></div>
+      <div class="bg-white p-5 rounded-xl shadow-sm border"><div class="flex justify-between mb-3"><span class="material-symbols-outlined text-orange-600 bg-orange-50 p-2 rounded-lg">work</span><span class="text-xs text-green-600">+3</span></div><p class="text-sm text-gray-500">Projetos Ativos</p><h3 class="text-2xl font-bold">7</h3></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow-sm border"><h3 class="text-lg font-semibold mb-4">Projetos Recentes</h3><div class="space-y-3"><div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><div><p class="font-semibold">Sistema para Academia</p><p class="text-sm text-gray-500">Orçamento: R$ 5.000</p></div><span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">Em andamento</span></div><div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><div><p class="font-semibold">App Delivery</p><p class="text-sm text-gray-500">Orçamento: R$ 12.000</p></div><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Concluído</span></div></div></div>
+      <div class="bg-white p-6 rounded-xl shadow-sm border"><h3 class="text-lg font-semibold mb-4">Leads Recentes</h3><div class="space-y-3"><div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><div><p class="font-semibold">João Silva</p><p class="text-sm text-gray-500">Precisa de sistema web</p></div><button class="bg-primary text-white px-3 py-1 rounded-lg text-sm">Responder</button></div><div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><div><p class="font-semibold">Maria Santos</p><p class="text-sm text-gray-500">Consultoria de TI</p></div><button class="bg-primary text-white px-3 py-1 rounded-lg text-sm">Responder</button></div></div></div>
+    </div>
+
+    <div class="relative overflow-hidden bg-primary-container rounded-2xl p-6 text-white">
+      <div><h2 class="text-xl font-bold mb-2">Quer mais visibilidade?</h2><p class="mb-4 opacity-90">Empresas que impulsionam seu perfil têm até 4x mais contatos</p><button class="bg-white text-primary px-6 py-2 rounded-lg font-semibold">Impulsionar Empresa</button></div>
+      <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

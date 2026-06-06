@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Buscar | Faz pra mim</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = { theme: { extend: { colors: { primary: "#630ed4" } } } }
+</script>
+</head>
+<body class="bg-gray-50">
+
+<header class="bg-white shadow-sm fixed top-0 w-full z-50">
+  <div class="flex justify-between items-center px-6 h-16 max-w-7xl mx-auto">
+    <div class="text-xl font-bold text-primary cursor-pointer" onclick="window.location.href='/'">🔧 Faz pra mim</div>
+    <div class="flex gap-3">
+      <a href="/login" class="text-primary px-4 py-2">Entrar</a>
+      <a href="/login" class="bg-primary text-white px-5 py-2 rounded-lg">Cadastrar</a>
+    </div>
+  </div>
+</header>
+
+<main class="pt-24 pb-12 px-4 max-w-7xl mx-auto">
+  <h1 class="text-3xl font-bold mb-2">Encontre profissionais e empresas</h1>
+  <p class="text-gray-600 mb-6">Mais de 50 profissionais prontos para te atender</p>
+  
+  <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+    <div class="flex flex-col md:flex-row gap-4">
+      <input type="text" id="searchInput" placeholder="O que você precisa? Ex: site, elétrica, design..." class="flex-1 p-3 border rounded-xl focus:ring-2 focus:ring-primary" onkeyup="search()">
+      <select id="categoryFilter" class="p-3 border rounded-xl w-full md:w-48" onchange="search()">
+        <option value="all">Todas categorias</option>
+        <option value="Serviços Digitais">💻 Serviços Digitais</option>
+        <option value="Serviços Presenciais">🔧 Serviços Presenciais</option>
+        <option value="Profissionais Especializados">👔 Profissionais</option>
+      </select>
+      <select id="workTypeFilter" class="p-3 border rounded-xl w-full md:w-40" onchange="search()">
+        <option value="all">Todos os tipos</option>
+        <option value="REMOTO">💻 Remoto</option>
+        <option value="PRESENCIAL">📍 Presencial</option>
+        <option value="AMBOS">🔄 Ambos</option>
+      </select>
+      <button onclick="search()" class="bg-primary text-white px-8 py-3 rounded-xl font-semibold hover:bg-primary/90">Buscar</button>
+    </div>
+  </div>
+  
+  <div id="resultsCount" class="text-gray-500 mb-4"></div>
+  <div id="results" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</main>
+
+<script>
+const API_URL = 'http://localhost:3000/api';
+
+async function search() {
+  const q = document.getElementById('searchInput').value;
+  const category = document.getElementById('categoryFilter').value;
+  const work_type = document.getElementById('workTypeFilter').value;
+  
+  const url = `${API_URL}/freelancers?q=${encodeURIComponent(q)}&category=${category}&work_type=${work_type}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  
+  document.getElementById('resultsCount').innerHTML = `${data.length} profissionais encontrados`;
+  
+  if (data.length === 0) {
+    document.getElementById('results').innerHTML = '<div class="text-center py-12 text-gray-500 col-span-full">Nenhum profissional encontrado</div>';
+    return;
+  }
+  
+  document.getElementById('results').innerHTML = data.map(f => `
+    <div class="bg-white rounded-xl p-5 shadow-sm border hover:shadow-md transition">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">${f.name?.charAt(0) || '?'}</div>
+        <div><h3 class="font-bold">${f.name}</h3><p class="text-sm text-gray-500">${f.title}</p></div>
+      </div>
+      <div class="flex items-center gap-2 text-sm mb-2"><span class="text-yellow-500">★ ${f.rating || 0}</span><span>(${f.review_count || 0} avaliações)</span></div>
+      <p class="text-sm text-gray-600 mb-3">${f.description?.substring(0, 100) || 'Profissional disponível para novos projetos'}...</p>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <span class="text-xs bg-gray-100 px-2 py-1 rounded">${f.work_type === 'REMOTO' ? '💻 Remoto' : f.work_type === 'PRESENCIAL' ? '📍 Presencial' : '🔄 Ambos'}</span>
+        ${f.city ? `<span class="text-xs bg-gray-100 px-2 py-1 rounded">📍 ${f.city}</span>` : ''}
+        ${f.is_verified ? '<span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">✓ Verificado</span>' : ''}
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-xl font-bold text-primary">R$ ${f.price_hourly || 0}/h</span>
+        <button onclick="window.location.href='/login'" class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-primary/90">Contatar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+search();
+</script>
+</body>
+</html>

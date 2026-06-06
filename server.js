@@ -1,54 +1,150 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const freelancerRoutes = require('./src/routes/freelancers.js');
-const initDatabase = require('./src/database/init-db.js');
+const cookieParser = require('cookie-parser');
+const { openDb } = require('./src/database/database.js');
+const { authenticate, requireAuth, requireRole } = require('./src/middleware/auth.js');
+const authRoutes = require('./src/routes/auth.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static('src/public'));
+app.use(authenticate);
 
-// Arquivos estáticos
-app.use('/css', express.static(path.join(__dirname, 'src/public/css')));
-app.use('/js', express.static(path.join(__dirname, 'src/public/js')));
-app.use('/images', express.static(path.join(__dirname, 'src/public/images')));
+// Rotas de autenticação
+app.use(authRoutes);
 
-// Views (HTML)
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/views/index.html'));
+// ==================== ROTAS PÚBLICAS ====================
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'src/views/index.html')));
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'src/views/login.html')));
+app.get('/buscar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/buscar.html')));
+
+// ==================== ROTAS PROTEGIDAS ====================
+app.get('/dashboard', requireRole(['profissional', 'admin', 'dev']), (req, res) => 
+  res.sendFile(path.join(__dirname, 'src/views/dashboard.html'))
+);
+
+app.get('/perfil', requireAuth, (req, res) => 
+  res.sendFile(path.join(__dirname, 'src/views/perfil.html'))
+);
+
+// ==================== ROTAS ADMIN/DEV ====================
+app.get('/admin/dev', requireRole(['dev']), (req, res) => 
+  res.sendFile(path.join(__dirname, 'src/views/admin/dev.html'))
+);
+
+app.get('/admin/dashboard', requireRole(['admin', 'dev']), (req, res) => 
+  res.sendFile(path.join(__dirname, 'src/views/admin/dashboard.html'))
+);
+
+// ==================== API PÚBLICA ====================
+// Buscar freelancers com pesquisa
+app.get('/api/freelancers', async (req, res) => {
+  const db = await openDb();
+  const { q, category, work_type, city } = req.query;
+  
+  let sql = 'SELECT * FROM freelancers WHERE 1=1';
+  let params = [];
+  
+  if (q) {
+    sql += ' AND (name LIKE ? OR title LIKE ? OR description LIKE ?)';
+    const like = `%${q}%`;
+    params.push(like, like, like);
+  }
+  if (category && category !== 'all') {
+    sql += ' AND category = ?';
+    params.push(category);
+  }
+  if (work_type && work_type !== 'all') {
+    sql += ' AND work_type IN (?, "AMBOS")';
+    params.push(work_type);
+  }
+  if (city) {
+    sql += ' AND city = ?';
+    params.push(city);
+  }
+  
+  sql += ' ORDER BY rating DESC LIMIT 50';
+  const freelancers = await db.all(sql, params);
+  await db.close();
+  res.json(freelancers);
 });
 
-app.get('/perfil/:id', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/views/perfil.html'));
+// Estatísticas públicas
+app.get('/api/stats', async (req, res) => {
+  const db = await openDb();
+  const stats = await db.get(`
+    SELECT 
+      (SELECT COUNT(*) FROM freelancers) as total_freelancers,
+      (SELECT COUNT(*) FROM projects WHERE status='open') as open_projects,
+      (SELECT COUNT(*) FROM reviews) as total_reviews
+  `);
+  await db.close();
+  res.json(stats);
 });
 
-app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/views/dashboard.html'));
+// ==================== API PROTEGIDA ====================
+// Criar projeto (requer login)
+app.post('/api/projects', requireAuth, async (req, res) => {
+  const db = await openDb();
+  const { title, description, category, work_type, city, budget } = req.body;
+  
+  const result = await db.run(`
+    INSERT INTO projects (title, description, category, work_type, city, budget, client_id, client_name, client_email)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `, [title, description, category, work_type, city, budget, req.user.id, req.user.name, req.user.email]);
+  
+  await db.close();
+  res.json({ id: result.lastID, message: 'Projeto criado!' });
 });
 
-// Rotas da API
-app.use('/api/freelancers', freelancerRoutes);
-
-// Health check
-app.get('/health', (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+// ==================== API ADMIN/DEV ====================
+// Estatísticas para admin/dev
+app.get('/api/admin/stats', requireRole(['dev', 'admin']), async (req, res) => {
+  const db = await openDb();
+  const stats = await db.get(`
+    SELECT 
+      (SELECT COUNT(*) FROM users) as totalUsers,
+      (SELECT COUNT(*) FROM freelancers) as totalFreelancers,
+      (SELECT COUNT(*) FROM projects) as totalProjects,
+      (SELECT COUNT(*) FROM reviews) as totalReviews
+  `);
+  await db.close();
+  res.json(stats);
 });
 
-// Inicializar banco e iniciar servidor
-async function startServer() {
-    await initDatabase();
-    
-    app.listen(PORT, () => {
-        console.log(`\n🚀 Servidor rodando em http://localhost:${PORT}`);
-        console.log(`📁 Estrutura reorganizada!`);
-        console.log(`📂 Views: src/views/`);
-        console.log(`🗄️ Banco: data/fazpramim.db\n`);
-    });
-}
+// Listar usuários
+app.get('/api/admin/users', requireRole(['dev', 'admin']), async (req, res) => {
+  const db = await openDb();
+  const users = await db.all('SELECT id, name, email, role, user_type, is_active, created_at FROM users ORDER BY id DESC');
+  await db.close();
+  res.json(users);
+});
 
-startServer();
+// Ativar/desativar usuário
+app.post('/api/admin/users/toggle', requireRole(['dev', 'admin']), async (req, res) => {
+  const { user_id, active } = req.body;
+  const db = await openDb();
+  await db.run('UPDATE users SET is_active = ? WHERE id = ?', [active, user_id]);
+  await db.close();
+  res.json({ success: true });
+});
+
+// ==================== INICIAR SERVIDOR ====================
+app.listen(PORT, () => {
+  console.log('\n╔═══════════════════════════════════════════════════════════╗');
+  console.log('║     🚀 FAZ PRA MIM - Servidor rodando! 🚀                 ║');
+  console.log('╠═══════════════════════════════════════════════════════════╣');
+  console.log(`║     📍 http://localhost:${PORT}                             ║`);
+  console.log(`║     🔐 Login: http://localhost:${PORT}/login                ║`);
+  console.log('╠═══════════════════════════════════════════════════════════╣');
+  console.log('║     👨‍💻 DEV:     dev@fazpramim.com / 123456                 ║');
+  console.log('║     👑 ADMIN:   admin@fazpramim.com / 123456               ║');
+  console.log('║     💼 PRO:     carlos@exemplo.com / 123456                ║');
+  console.log('║     👤 CLIENTE: ana@exemplo.com / 123456                   ║');
+  console.log('╚═══════════════════════════════════════════════════════════╝\n');
+});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="light" lang="pt-BR">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -7,164 +7,162 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          primary: "#630ed4",
-          "primary-container": "#7c3aed",
-          secondary: "#795900",
-          "secondary-container": "#ffc329",
-          background: "#fef7ff",
-          surface: "#fef7ff",
-          "on-surface": "#1d1a24",
-          "on-surface-variant": "#4a4455",
-          outline: "#7b7487",
-          "outline-variant": "#ccc3d8"
-        },
-        fontFamily: { sans: ["Inter"] }
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#630ed4",
+        "primary-container": "#7c3aed",
+        "on-primary-container": "#ede0ff",
+        secondary: "#795900",
+        "secondary-container": "#ffc329",
+        background: "#fef7ff",
+        "surface-container-low": "#f9f1ff",
+        "surface-container-highest": "#e8dfee",
+        "outline-variant": "#ccc3d8",
+        "on-surface": "#1d1a24",
+        "on-surface-variant": "#4a4455",
       }
     }
   }
+}
 </script>
 <style>
-  .hero-pattern {
-    background-image: radial-gradient(circle at 2px 2px, #7c3aed15 1px, transparent 0);
-    background-size: 24px 24px;
-  }
-  .glass-card {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-  .freelancer-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .freelancer-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
-  }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.hero-pattern { background-image: radial-gradient(circle at 2px 2px, #7c3aed15 1px, transparent 0); background-size: 24px 24px; }
 </style>
 </head>
-<body class="bg-background text-on-surface font-sans">
-<!-- Header -->
+<body class="bg-background text-on-surface font-inter overflow-x-hidden">
+
 <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
   <div class="flex justify-between items-center px-6 md:px-10 h-16 max-w-7xl mx-auto">
-    <div class="text-xl md:text-2xl font-bold text-primary">Faz pra mim</div>
-    <nav class="hidden md:flex gap-8 items-center">
-      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Freelancers</a>
-      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Como funciona</a>
-      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Categorias</a>
-      <a class="text-primary border-b-2 border-primary pb-1" href="#">Profissionais</a>
+    <div class="text-2xl font-bold text-primary">🔧 Faz pra mim</div>
+    <nav class="hidden md:flex gap-6">
+      <a href="/" class="text-primary border-b-2 border-primary pb-1">Início</a>
+      <a href="/buscar" class="text-on-surface-variant hover:text-primary">Freelancers</a>
+      <a href="#" class="text-on-surface-variant hover:text-primary">Como funciona</a>
+      <a href="#" class="text-on-surface-variant hover:text-primary">Categorias</a>
     </nav>
-    <div class="flex items-center gap-4">
-      <button class="px-4 py-2 text-primary hover:bg-primary/10 rounded-lg transition-all">Entrar</button>
-      <button class="px-5 py-2 bg-primary text-white rounded-lg hover:shadow-lg transition-all">Anunciar</button>
+    <div class="flex gap-3">
+      <button onclick="window.location.href='/perfil'" class="text-primary px-4 py-2 hover:bg-primary/10 rounded-lg transition">Entrar</button>
+      <button onclick="window.location.href='/dashboard'" class="bg-primary text-white px-5 py-2 rounded-lg hover:opacity-90 transition">Profissional</button>
     </div>
   </div>
 </header>
 
-<!-- Hero Section -->
-<section class="relative pt-32 pb-20 px-6 md:px-10 hero-pattern overflow-hidden">
-  <div class="max-w-7xl mx-auto text-center">
-    <h1 class="text-4xl md:text-5xl font-bold text-on-surface mb-6">
-      Encontre o profissional <span class="text-primary">certo</span>
-    </h1>
-    <p class="text-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
-      A plataforma que conecta freelancers talentosos a clientes que precisam de resultados excepcionais.
-    </p>
-    
-    <!-- Barra de busca -->
-    <div class="max-w-2xl mx-auto flex flex-col md:flex-row gap-4">
-      <input type="text" id="searchInput" placeholder="Buscar profissional..." class="flex-1 px-6 py-4 rounded-xl border border-outline-variant bg-white focus:outline-none focus:border-primary">
-      <button onclick="searchFreelancers()" class="px-8 py-4 bg-primary text-white rounded-xl font-bold hover:shadow-lg transition-all">Buscar</button>
+<section class="relative pt-32 pb-20 px-6 md:px-10 hero-pattern">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8">
+    <div class="flex-1 text-center md:text-left">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-on-surface mb-4">Encontre o profissional <span class="text-primary">certo</span>, agora mesmo</h1>
+      <p class="text-lg text-on-surface-variant mb-6 max-w-xl">A plataforma que conecta freelancers talentosos a clientes que precisam de resultados excepcionais. De design a serviços domésticos, nós cuidamos de tudo.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+        <button onclick="window.location.href='/buscar'" class="bg-primary-container text-on-primary-container px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition flex items-center gap-2 group">
+          Começar Agora
+          <span class="material-symbols-outlined group-hover:translate-x-1 transition">arrow_forward</span>
+        </button>
+        <div class="flex items-center gap-2 px-4">
+          <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+          <span class="text-sm">Profissionais verificados</span>
+        </div>
+      </div>
     </div>
-    
-    <!-- Filtros -->
-    <div class="flex flex-wrap justify-center gap-4 mt-8">
-      <select id="categoryFilter" onchange="searchFreelancers()" class="px-4 py-2 rounded-lg border border-outline-variant bg-white">
-        <option value="all">Todas categorias</option>
-        <option value="Serviços Digitais">💻 Serviços Digitais</option>
-        <option value="Serviços Presenciais">🔧 Serviços Presenciais</option>
-        <option value="Profissionais Especializados">👔 Profissionais</option>
-      </select>
-      <select id="workTypeFilter" onchange="searchFreelancers()" class="px-4 py-2 rounded-lg border border-outline-variant bg-white">
-        <option value="all">Todos os tipos</option>
-        <option value="REMOTO">💻 Remoto</option>
-        <option value="PRESENCIAL">📍 Presencial</option>
-      </select>
+    <div class="flex-1 relative">
+      <div class="absolute inset-0 bg-primary/5 rounded-full blur-3xl"></div>
+      <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800" class="relative rounded-2xl shadow-2xl w-full h-96 object-cover" alt="Profissionais trabalhando"/>
+      <div class="absolute -bottom-4 -left-4 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-3"><div class="bg-secondary-container p-2 rounded-full"><span class="material-symbols-outlined text-on-secondary-container">trending_up</span></div><div><div class="text-xl font-bold">15k+</div><div class="text-xs text-gray-500">Jobs Realizados</div></div></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Resultados -->
-<section class="py-16 px-6 md:px-10">
+<section class="py-20 px-6 md:px-10 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto text-center mb-12">
+    <h2 class="text-3xl md:text-4xl font-bold mb-2">Para todos os objetivos</h2>
+    <p class="text-on-surface-variant">Três caminhos, um só destino: excelência.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="bg-white p-6 rounded-2xl border hover:border-primary transition-all hover:shadow-lg group">
+      <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-primary-container transition-colors"><span class="material-symbols-outlined text-primary text-3xl group-hover:text-white">person_celebrate</span></div>
+      <h3 class="text-xl font-bold mb-2">Freelancers</h3>
+      <p class="text-on-surface-variant mb-4">Aumente seus ganhos, gerencie projetos e construa uma reputação sólida com as melhores ferramentas do mercado.</p>
+      <a href="#" class="text-primary font-semibold inline-flex items-center gap-1 hover:gap-2 transition">Saiba mais <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+    </div>
+    <div class="bg-white p-6 rounded-2xl border hover:border-primary transition-all hover:shadow-lg group">
+      <div class="w-16 h-16 bg-secondary/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-secondary-container transition-colors"><span class="material-symbols-outlined text-secondary text-3xl group-hover:text-white">business</span></div>
+      <h3 class="text-xl font-bold mb-2">Empresas</h3>
+      <p class="text-on-surface-variant mb-4">Escalone seu time sob demanda com especialistas qualificados. Gestão de contratos e faturas em um só lugar.</p>
+      <a href="#" class="text-secondary font-semibold inline-flex items-center gap-1 hover:gap-2 transition">Soluções Enterprise <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+    </div>
+    <div class="bg-white p-6 rounded-2xl border hover:border-primary transition-all hover:shadow-lg group">
+      <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-tertiary-container transition-colors"><span class="material-symbols-outlined text-orange-600 text-3xl group-hover:text-white">shopping_cart</span></div>
+      <h3 class="text-xl font-bold mb-2">Clientes</h3>
+      <p class="text-on-surface-variant mb-4">Precisa de um conserto em casa ou um design rápido? Publique seu projeto e receba propostas em minutos.</p>
+      <a href="#" class="text-orange-600 font-semibold inline-flex items-center gap-1 hover:gap-2 transition">Contratar Agora <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 px-6 md:px-10">
+  <div class="max-w-7xl mx-auto text-center mb-12">
+    <span class="text-primary font-semibold text-sm uppercase tracking-wider">Como funciona</span>
+    <h2 class="text-3xl md:text-4xl font-bold mt-2">Simples e rápido</h2>
+  </div>
+  <div class="grid md:grid-cols-3 gap-8 relative">
+    <div class="hidden md:block absolute top-20 left-0 w-full h-0.5 border-t-2 border-dashed border-outline-variant"></div>
+    <div class="text-center relative z-10">
+      <div class="w-20 h-20 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-3xl font-bold mx-auto mb-4 shadow-lg">1</div>
+      <h4 class="text-xl font-bold mb-2">Publique seu Job</h4>
+      <p class="text-on-surface-variant">Descreva o que você precisa de forma clara e objetiva para atrair os melhores profissionais.</p>
+    </div>
+    <div class="text-center relative z-10">
+      <div class="w-20 h-20 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-3xl font-bold mx-auto mb-4 shadow-lg">2</div>
+      <h4 class="text-xl font-bold mb-2">Compare Propostas</h4>
+      <p class="text-on-surface-variant">Analise portfólios, avaliações e orçamentos de profissionais interessados no seu projeto.</p>
+    </div>
+    <div class="text-center relative z-10">
+      <div class="w-20 h-20 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold mx-auto mb-4 shadow-lg">3</div>
+      <h4 class="text-xl font-bold mb-2">Contrate e Relaxe</h4>
+      <p class="text-on-surface-variant">Acompanhe o progresso e pague apenas quando estiver satisfeito com o resultado.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 px-6 md:px-10 bg-surface-container-highest">
   <div class="max-w-7xl mx-auto">
-    <div class="flex justify-between items-center mb-8">
-      <h2 class="text-2xl font-bold">Profissionais disponíveis</h2>
-      <span id="resultsCount" class="text-on-surface-variant"></span>
-    </div>
-    <div id="freelancersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="text-center py-10 text-on-surface-variant">Carregando...</div>
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Categorias Populares</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white p-6 rounded-2xl text-center hover:bg-primary/5 transition cursor-pointer group"><span class="material-symbols-outlined text-primary text-5xl mb-3 group-hover:scale-110 transition">palette</span><div class="font-semibold">Design</div></div>
+      <div class="bg-white p-6 rounded-2xl text-center hover:bg-primary/5 transition cursor-pointer group"><span class="material-symbols-outlined text-primary text-5xl mb-3 group-hover:scale-110 transition">code</span><div class="font-semibold">Desenvolvimento</div></div>
+      <div class="bg-white p-6 rounded-2xl text-center hover:bg-primary/5 transition cursor-pointer group"><span class="material-symbols-outlined text-primary text-5xl mb-3 group-hover:scale-110 transition">campaign</span><div class="font-semibold">Marketing</div></div>
+      <div class="bg-white p-6 rounded-2xl text-center hover:bg-primary/5 transition cursor-pointer group"><span class="material-symbols-outlined text-primary text-5xl mb-3 group-hover:scale-110 transition">home_repair_service</span><div class="font-semibold">Reparos</div></div>
+      <div class="bg-white p-6 rounded-2xl text-center hover:bg-primary/5 transition cursor-pointer group"><span class="material-symbols-outlined text-primary text-5xl mb-3 group-hover:scale-110 transition">edit_note</span><div class="font-semibold">Escrita</div></div>
+      <div class="bg-white p-6 rounded-2xl text-center hover:bg-primary/5 transition cursor-pointer group"><span class="material-symbols-outlined text-primary text-5xl mb-3 group-hover:scale-110 transition">video_camera_back</span><div class="font-semibold">Vídeo</div></div>
+      <div class="bg-white p-6 rounded-2xl text-center hover:bg-primary/5 transition cursor-pointer group"><span class="material-symbols-outlined text-primary text-5xl mb-3 group-hover:scale-110 transition">cleaning_services</span><div class="font-semibold">Limpeza</div></div>
+      <div class="bg-white p-6 rounded-2xl text-center hover:bg-primary/5 transition cursor-pointer group"><span class="material-symbols-outlined text-primary text-5xl mb-3 group-hover:scale-110 transition">psychology</span><div class="font-semibold">Consultoria</div></div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
-<footer class="bg-surface-container-lowest border-t border-outline-variant py-8 px-6 md:px-10">
-  <div class="max-w-7xl mx-auto text-center text-on-surface-variant text-sm">
-    © 2024 Faz pra mim. Todos os direitos reservados.
+<footer class="bg-surface-container-lowest border-t py-8 px-6 md:px-10">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="text-xl font-bold text-primary">🔧 Faz pra mim</div>
+    <div class="flex gap-6 text-sm text-on-surface-variant"><a href="#" class="hover:text-primary">Termos de Uso</a><a href="#" class="hover:text-primary">Privacidade</a><a href="#" class="hover:text-primary">Ajuda</a><a href="#" class="hover:text-primary">API</a></div>
+    <div class="text-sm text-on-surface-variant">© 2024 Faz pra mim. Todos os direitos reservados.</div>
   </div>
 </footer>
 
 <script>
-  async function searchFreelancers() {
-    const query = document.getElementById('searchInput').value;
-    const category = document.getElementById('categoryFilter').value;
-    const work_type = document.getElementById('workTypeFilter').value;
-    
-    try {
-      const res = await axios.get('/api/freelancers', { params: { query, category, work_type } });
-      const data = res.data;
-      
-      document.getElementById('resultsCount').innerHTML = `${data.length} profissionais encontrados`;
-      
-      if (data.length === 0) {
-        document.getElementById('freelancersList').innerHTML = '<div class="text-center py-10 text-on-surface-variant col-span-3">Nenhum profissional encontrado</div>';
-        return;
-      }
-      
-      document.getElementById('freelancersList').innerHTML = data.map(f => `
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-outline-variant freelancer-card cursor-pointer" onclick="window.location.href='/perfil/${f.id}'">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">${f.name.charAt(0)}</div>
-            <div>
-              <h3 class="font-bold text-lg">${f.name} ${f.is_verified ? '✓' : ''}</h3>
-              <p class="text-sm text-primary">${f.title}</p>
-            </div>
-          </div>
-          <p class="text-on-surface-variant text-sm mb-4 line-clamp-2">${f.description || ''}</p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-2 py-1 bg-surface rounded-full text-xs">${f.category}</span>
-            <span class="px-2 py-1 bg-surface rounded-full text-xs">${f.work_type === 'REMOTO' ? 'Remoto' : 'Presencial'}</span>
-            ${f.city ? `<span class="px-2 py-1 bg-surface rounded-full text-xs">📍 ${f.city}</span>` : ''}
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-yellow-500">${'⭐'.repeat(Math.floor(f.rating || 0))}</span>
-            <span class="font-bold text-primary">${f.price_hourly ? `R$ ${f.price_hourly}/h` : 'Sob consulta'}</span>
-          </div>
-        </div>
-      `).join('');
-    } catch(e) {
-      console.error(e);
-      document.getElementById('freelancersList').innerHTML = '<div class="text-center py-10 text-red-500 col-span-3">Erro ao carregar profissionais</div>';
+  document.querySelectorAll('section > div, section > div:first-child').forEach(el => {
+    if(el.classList) {
+      el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-8');
+      new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('opacity-100', 'translate-y-0'); entry.target.classList.remove('opacity-0', 'translate-y-8'); } });
+      }, {threshold:0.1}).observe(el);
     }
-  }
-  
-  searchFreelancers();
+  });
 </script>
 </body>
 </html>
