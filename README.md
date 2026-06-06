@@ -10,6 +10,7 @@ Plataforma de conexão entre prestadores de serviços (freelancers/PJ) e cliente
 - ✅ Busca de profissionais por categoria
 - ✅ Sistema de avaliações
 - ✅ Banco de dados SQLite
+- 
 
 ## 📋 Pré-requisitos
 
