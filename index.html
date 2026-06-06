@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Faz pra mim | Encontre o profissional certo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#630ed4",
+          "primary-container": "#7c3aed",
+          secondary: "#795900",
+          "secondary-container": "#ffc329",
+          background: "#fef7ff",
+          surface: "#fef7ff",
+          "on-surface": "#1d1a24",
+          "on-surface-variant": "#4a4455",
+          outline: "#7b7487",
+          "outline-variant": "#ccc3d8"
+        },
+        fontFamily: { sans: ["Inter"] }
+      }
+    }
+  }
+</script>
+<style>
+  .hero-pattern {
+    background-image: radial-gradient(circle at 2px 2px, #7c3aed15 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .freelancer-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .freelancer-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+  }
+</style>
+</head>
+<body class="bg-background text-on-surface font-sans">
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+  <div class="flex justify-between items-center px-6 md:px-10 h-16 max-w-7xl mx-auto">
+    <div class="text-xl md:text-2xl font-bold text-primary">Faz pra mim</div>
+    <nav class="hidden md:flex gap-8 items-center">
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Freelancers</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Como funciona</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Categorias</a>
+      <a class="text-primary border-b-2 border-primary pb-1" href="#">Profissionais</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <button class="px-4 py-2 text-primary hover:bg-primary/10 rounded-lg transition-all">Entrar</button>
+      <button class="px-5 py-2 bg-primary text-white rounded-lg hover:shadow-lg transition-all">Anunciar</button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 px-6 md:px-10 hero-pattern overflow-hidden">
+  <div class="max-w-7xl mx-auto text-center">
+    <h1 class="text-4xl md:text-5xl font-bold text-on-surface mb-6">
+      Encontre o profissional <span class="text-primary">certo</span>
+    </h1>
+    <p class="text-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
+      A plataforma que conecta freelancers talentosos a clientes que precisam de resultados excepcionais.
+    </p>
+    
+    <!-- Barra de busca -->
+    <div class="max-w-2xl mx-auto flex flex-col md:flex-row gap-4">
+      <input type="text" id="searchInput" placeholder="Buscar profissional..." class="flex-1 px-6 py-4 rounded-xl border border-outline-variant bg-white focus:outline-none focus:border-primary">
+      <button onclick="searchFreelancers()" class="px-8 py-4 bg-primary text-white rounded-xl font-bold hover:shadow-lg transition-all">Buscar</button>
+    </div>
+    
+    <!-- Filtros -->
+    <div class="flex flex-wrap justify-center gap-4 mt-8">
+      <select id="categoryFilter" onchange="searchFreelancers()" class="px-4 py-2 rounded-lg border border-outline-variant bg-white">
+        <option value="all">Todas categorias</option>
+        <option value="Serviços Digitais">💻 Serviços Digitais</option>
+        <option value="Serviços Presenciais">🔧 Serviços Presenciais</option>
+        <option value="Profissionais Especializados">👔 Profissionais</option>
+      </select>
+      <select id="workTypeFilter" onchange="searchFreelancers()" class="px-4 py-2 rounded-lg border border-outline-variant bg-white">
+        <option value="all">Todos os tipos</option>
+        <option value="REMOTO">💻 Remoto</option>
+        <option value="PRESENCIAL">📍 Presencial</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- Resultados -->
+<section class="py-16 px-6 md:px-10">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-2xl font-bold">Profissionais disponíveis</h2>
+      <span id="resultsCount" class="text-on-surface-variant"></span>
+    </div>
+    <div id="freelancersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="text-center py-10 text-on-surface-variant">Carregando...</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant py-8 px-6 md:px-10">
+  <div class="max-w-7xl mx-auto text-center text-on-surface-variant text-sm">
+    © 2024 Faz pra mim. Todos os direitos reservados.
+  </div>
+</footer>
+
+<script>
+  async function searchFreelancers() {
+    const query = document.getElementById('searchInput').value;
+    const category = document.getElementById('categoryFilter').value;
+    const work_type = document.getElementById('workTypeFilter').value;
+    
+    try {
+      const res = await axios.get('/api/freelancers', { params: { query, category, work_type } });
+      const data = res.data;
+      
+      document.getElementById('resultsCount').innerHTML = `${data.length} profissionais encontrados`;
+      
+      if (data.length === 0) {
+        document.getElementById('freelancersList').innerHTML = '<div class="text-center py-10 text-on-surface-variant col-span-3">Nenhum profissional encontrado</div>';
+        return;
+      }
+      
+      document.getElementById('freelancersList').innerHTML = data.map(f => `
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-outline-variant freelancer-card cursor-pointer" onclick="window.location.href='/perfil/${f.id}'">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">${f.name.charAt(0)}</div>
+            <div>
+              <h3 class="font-bold text-lg">${f.name} ${f.is_verified ? '✓' : ''}</h3>
+              <p class="text-sm text-primary">${f.title}</p>
+            </div>
+          </div>
+          <p class="text-on-surface-variant text-sm mb-4 line-clamp-2">${f.description || ''}</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-surface rounded-full text-xs">${f.category}</span>
+            <span class="px-2 py-1 bg-surface rounded-full text-xs">${f.work_type === 'REMOTO' ? 'Remoto' : 'Presencial'}</span>
+            ${f.city ? `<span class="px-2 py-1 bg-surface rounded-full text-xs">📍 ${f.city}</span>` : ''}
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-yellow-500">${'⭐'.repeat(Math.floor(f.rating || 0))}</span>
+            <span class="font-bold text-primary">${f.price_hourly ? `R$ ${f.price_hourly}/h` : 'Sob consulta'}</span>
+          </div>
+        </div>
+      `).join('');
+    } catch(e) {
+      console.error(e);
+      document.getElementById('freelancersList').innerHTML = '<div class="text-center py-10 text-red-500 col-span-3">Erro ao carregar profissionais</div>';
+    }
+  }
+  
+  searchFreelancers();
+</script>
+</body>
+</html>

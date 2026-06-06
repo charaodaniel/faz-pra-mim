@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard - Faz pra mim</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script>
+  tailwind.config = { theme: { extend: { colors: { primary: "#630ed4" }, fontFamily: { sans: ["Inter"] } } } }
+</script>
+</head>
+<body class="bg-gray-50 font-sans">
+<div class="flex h-screen">
+  <aside class="w-64 bg-white border-r p-6 hidden md:block">
+    <h2 class="text-xl font-bold text-primary mb-8">Faz pra mim</h2>
+    <nav class="space-y-2">
+      <a href="#" class="block py-2 px-4 bg-primary/10 text-primary rounded-lg">Dashboard</a>
+      <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded-lg">Perfil</a>
+      <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded-lg">Projetos</a>
+    </nav>
+  </aside>
+  <main class="flex-1 overflow-auto p-6 md:p-8">
+    <h1 class="text-2xl font-bold mb-6">Dashboard do Profissional</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white rounded-xl p-6 shadow-sm"><h3 class="text-gray-500 mb-2">Visualizações</h3><p class="text-3xl font-bold">1,240</p></div>
+      <div class="bg-white rounded-xl p-6 shadow-sm"><h3 class="text-gray-500 mb-2">Contatos</h3><p class="text-3xl font-bold">45</p></div>
+      <div class="bg-white rounded-xl p-6 shadow-sm"><h3 class="text-gray-500 mb-2">Avaliação</h3><p class="text-3xl font-bold">4.9 ⭐</p></div>
+    </div>
+    <div class="bg-white rounded-xl p-6 shadow-sm">
+      <h2 class="font-bold mb-4">Últimos Contatos</h2>
+      <div class="space-y-3">
+        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span>Mariana Souza</span><button class="text-primary">Responder</button></div>
+        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span>TechFlow Solutions</span><button class="text-primary">Responder</button></div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
