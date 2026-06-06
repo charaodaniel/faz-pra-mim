@@ -1,5 +1,10 @@
 node_modules/
 *.db
+*.db-journal
 data/
 .env
 .DS_Store
+npm-debug.log
+*.log
+dist/
+build/

@@ -1,0 +1,24 @@
+/* Estilos globais do Faz pra mim */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.freelancer-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.freelancer-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+}
+
+.hero-pattern {
+    background-image: radial-gradient(circle at 2px 2px, #7c3aed15 1px, transparent 0);
+    background-size: 24px 24px;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}

@@ -51,4 +51,4 @@ async function initDatabase() {
   await db.close();
 }
 
-initDatabase();
+module.exports = initDatabase;
