@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dev Panel | Faz pra mim</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-gray-900 text-white">
+
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-800 p-6">
+    <div class="text-xl font-bold text-purple-400 mb-8">🔧 Faz pra mim</div>
+    <div class="text-xs text-gray-400 mb-2">👨‍💻 DEV MODE</div>
+    <nav class="space-y-2">
+      <a href="#" class="flex items-center gap-3 p-3 bg-purple-600 rounded-lg"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+      <a href="#" class="flex items-center gap-3 p-3 text-gray-400 hover:bg-gray-700 rounded-lg"><span class="material-symbols-outlined">group</span>Usuários</a>
+      <a href="#" class="flex items-center gap-3 p-3 text-gray-400 hover:bg-gray-700 rounded-lg"><span class="material-symbols-outlined">database</span>Banco de Dados</a>
+      <a href="#" class="flex items-center gap-3 p-3 text-gray-400 hover:bg-gray-700 rounded-lg"><span class="material-symbols-outlined">analytics</span>Logs</a>
+      <a href="#" class="flex items-center gap-3 p-3 text-gray-400 hover:bg-gray-700 rounded-lg"><span class="material-symbols-outlined">settings</span>Configurações</a>
+    </nav>
+  </aside>
+  
+  <!-- Main -->
+  <main class="flex-1 overflow-auto">
+    <header class="bg-gray-800 p-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Developer Dashboard</h1>
+      <div class="flex items-center gap-4">
+        <span class="text-sm text-gray-400">dev@fazpramim.com</span>
+        <button onclick="logout()" class="bg-red-600 px-4 py-2 rounded-lg text-sm">Sair</button>
+      </div>
+    </header>
+    
+    <div class="p-6">
+      <!-- Stats -->
+      <div class="grid grid-cols-4 gap-4 mb-8" id="stats">
+        <div class="bg-gray-800 p-4 rounded-lg"><div class="text-2xl font-bold" id="totalUsers">-</div><div class="text-gray-400">Usuários</div></div>
+        <div class="bg-gray-800 p-4 rounded-lg"><div class="text-2xl font-bold" id="totalFreelancers">-</div><div class="text-gray-400">Profissionais</div></div>
+        <div class="bg-gray-800 p-4 rounded-lg"><div class="text-2xl font-bold" id="totalProjects">-</div><div class="text-gray-400">Projetos</div></div>
+        <div class="bg-gray-800 p-4 rounded-lg"><div class="text-2xl font-bold" id="totalReviews">-</div><div class="text-gray-400">Avaliações</div></div>
+      </div>
+      
+      <!-- Users Table -->
+      <div class="bg-gray-800 rounded-lg overflow-hidden">
+        <div class="p-4 border-b border-gray-700 flex justify-between">
+          <h2 class="font-bold">Lista de Usuários</h2>
+          <button onclick="loadUsers()" class="bg-purple-600 px-3 py-1 rounded text-sm">↻ Atualizar</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-gray-700">
+              <tr><th class="p-3 text-left">ID</th><th class="p-3 text-left">Nome</th><th class="p-3 text-left">Email</th><th class="p-3 text-left">Role</th><th class="p-3 text-left">Status</th><th class="p-3 text-left">Ações</th></tr>
+            </thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+async function loadStats() {
+  const res = await fetch('/api/admin/stats');
+  const data = await res.json();
+  document.getElementById('totalUsers').innerText = data.totalUsers || 0;
+  document.getElementById('totalFreelancers').innerText = data.totalFreelancers || 0;
+  document.getElementById('totalProjects').innerText = data.totalProjects || 0;
+  document.getElementById('totalReviews').innerText = data.totalReviews || 0;
+}
+
+async function loadUsers() {
+  const res = await fetch('/api/admin/users');
+  const users = await res.json();
+  const tbody = document.getElementById('usersTable');
+  tbody.innerHTML = users.map(u => `
+    <tr class="border-b border-gray-700">
+      <td class="p-3">${u.id}</td>
+      <td class="p-3">${u.name}</td>
+      <td class="p-3">${u.email}</td>
+      <td class="p-3"><span class="px-2 py-1 rounded text-xs ${u.role === 'dev' ? 'bg-purple-600' : u.role === 'admin' ? 'bg-blue-600' : u.role === 'profissional' ? 'bg-green-600' : 'bg-gray-600'}">${u.role}</span></td>
+      <td class="p-3"><span class="px-2 py-1 rounded text-xs ${u.is_active ? 'bg-green-600' : 'bg-red-600'}">${u.is_active ? 'Ativo' : 'Inativo'}</span></td>
+      <td class="p-3"><button onclick="toggleUser(${u.id}, ${u.is_active})" class="text-sm ${u.is_active ? 'text-red-400' : 'text-green-400'}">${u.is_active ? 'Desativar' : 'Ativar'}</button></td>
+     </tr>
+  `).join('');
+}
+
+async function toggleUser(id, currentStatus) {
+  const res = await fetch('/api/admin/users/toggle', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user_id: id, active: currentStatus ? 0 : 1 })
+  });
+  if (res.ok) {
+    loadUsers();
+    loadStats();
+  }
+}
+
+async function logout() {
+  await fetch('/api/logout', { method: 'POST' });
+  window.location.href = '/login';
+}
+
+loadStats();
+loadUsers();
+</script>
+</body>
+</html>
